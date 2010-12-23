@@ -1,0 +1,35 @@
+Displaying an FFT of the sound input:
+
+while True:
+  read a window
+  compute the fourier transform
+  display the transform
+
+Displaying an FFT of a wav file:
+
+while True:
+  read a window
+  compute the fourier transform
+  display the transform
+  wait an appropriate amount of time
+
+More usefully, display an FFT of a wav file while playing it
+
+while True:
+  read a window
+  compute the fourier transform
+  display the transform
+  play the window
+
+Displaying a video of a physics simulation
+
+set timer to 1/framerate
+while True:
+  perform a timestep
+  if timer.expired:
+    get picture from simulation
+    display picture
+    reset timer
+
+
+
