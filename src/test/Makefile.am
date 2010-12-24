@@ -1,1 +1,3 @@
-SUBDIRS = av
+SUBDIRS = \
+	audio \
+	av
