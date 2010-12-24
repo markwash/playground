@@ -21,8 +21,10 @@ AC_PROG_CXX
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile
+		 src/audio/Makefile
 		 src/av/Makefile
 		 src/test/Makefile
+		 src/test/audio/Makefile
 		 src/test/av/Makefile
 		])
 AC_OUTPUT
