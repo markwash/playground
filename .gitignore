@@ -10,3 +10,7 @@ configure
 install-sh
 missing
 stamp-h1
+*.o
+depcomp
+.deps/
+ftviz
