@@ -21,11 +21,12 @@ int main(int argc, char **argv) {
   SoundOutputStreamInterface *output;
   output = new FileOutputStream();
   // create AudioPipe pipe
-  PipeStrategy *pipe;
-  // pipe.run_until_done
+  PipeStrategy *pipe = new PipeStrategy(input, output);
+  // pipe->run_until_finished();
 
   delete input;
   delete output;
+  delete pipe;
 
   return EXIT_SUCCESS;
 }
