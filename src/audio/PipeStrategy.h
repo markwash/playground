@@ -17,6 +17,7 @@ class PipeStrategy {
   PipeStrategy(SoundInputStreamInterface *input,
                SoundOutputStreamInterface *output) {}
 
+  void run_until_finished(void) {}
 };
 
 }  // namespace audio

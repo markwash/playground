@@ -20,9 +20,9 @@ int main(int argc, char **argv) {
   // create output stream that is sound file
   SoundOutputStreamInterface *output;
   output = new FileOutputStream();
-  // create AudioPipe pipe
+  // create piping strategy
   PipeStrategy *pipe = new PipeStrategy(input, output);
-  // pipe->run_until_finished();
+  pipe->run_until_finished();
 
   delete input;
   delete output;
