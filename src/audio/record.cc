@@ -3,11 +3,13 @@
 
 #include "audio/FileOutputStream.h"
 #include "audio/MicInputStream.h"
+#include "audio/PipeStrategy.h"
 #include "audio/SoundInputStreamInterface.h"
 #include "audio/SoundOutputStreamInterface.h"
 
 using pg::audio::FileOutputStream;
 using pg::audio::MicInputStream;
+using pg::audio::PipeStrategy;
 using pg::audio::SoundInputStreamInterface;
 using pg::audio::SoundOutputStreamInterface;
 
@@ -18,8 +20,8 @@ int main(int argc, char **argv) {
   // create output stream that is sound file
   SoundOutputStreamInterface *output;
   output = new FileOutputStream();
-  // create null timer
-  // create TimedAudioPipe pipe
+  // create AudioPipe pipe
+  PipeStrategy *pipe;
   // pipe.run_until_done
 
   delete input;
