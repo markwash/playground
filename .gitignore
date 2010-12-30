@@ -16,3 +16,5 @@ depcomp
 ftviz
 autoscan.log
 configure.scan
+record
+config.h.in~
