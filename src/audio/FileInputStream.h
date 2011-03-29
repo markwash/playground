@@ -13,9 +13,10 @@ namespace audio {
 class FileInputStream: public pg::audio::SoundInputStreamInterface {
  public:
   explicit FileInputStream(const char *path);
-  void Init();
   ~FileInputStream();
-  bool Read(pg::audio::SoundBuffer *buffer) {return true;}
+  void Init();
+  bool Read(pg::audio::SoundBuffer *buffer);
+
  private:
   const char *path_;
   SNDFILE *sound_file_;

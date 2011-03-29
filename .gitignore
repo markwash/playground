@@ -20,3 +20,5 @@ record
 config.h.in~
 *-test
 *.a
+create-wav
+*.wav

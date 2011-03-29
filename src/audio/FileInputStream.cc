@@ -20,5 +20,15 @@ FileInputStream::~FileInputStream() {
   delete sound_file_info_;
 }
 
+bool FileInputStream::Read(SoundBuffer *buffer) {
+  buffer->set_channels(sound_file_info_->channels);
+  int frames = sf_readf_short(sound_file_, buffer->data(),
+                              buffer->max_frames());
+  buffer->set_frames(frames);
+  if (frames == 0)
+    return false;
+  return true;
+}
+
 }  // namespace audio
 }  // namespace pg

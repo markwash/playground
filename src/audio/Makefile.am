@@ -5,8 +5,16 @@ noinst_LIBRARIES = \
 
 libaudio_a_SOURCES = \
 	FileInputStream.h \
-	FileInputStream.cc
+	FileInputStream.cc \
+	SoundBuffer.h \
+	SoundBuffer.cc
 
 bin_PROGRAMS = record
 
 record_SOURCES = record.cc
+
+noinst_PROGRAMS = create-wav
+
+create_wav_SOURCES = create-wav.cc
+
+create_wav_LDFLAGS = -lsndfile

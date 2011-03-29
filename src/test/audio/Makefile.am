@@ -17,4 +17,7 @@ sound_buffer_test_SOURCES = \
 
 sound_buffer_test_LDFLAGS = -lboost_unit_test_framework-mt
 
+sound_buffer_test_LDADD = \
+	$(top_builddir)/src/audio/libaudio.a
+
 TESTS = $(check_PROGRAMS)
