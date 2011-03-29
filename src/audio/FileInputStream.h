@@ -9,6 +9,9 @@ namespace pg {
 namespace audio {
 
 class FileInputStream: public pg::audio::SoundInputStreamInterface {
+ public:
+  explicit FileInputStream(const char *file) {}
+  void read(pg::audio::SoundBuffer *buffer) {}
 };
 
 }  // namespace audio
