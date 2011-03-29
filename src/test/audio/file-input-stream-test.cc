@@ -16,7 +16,7 @@ struct F {
 BOOST_FIXTURE_TEST_CASE(test_create_and_read, F) {
   SoundInputStreamInterface *file = new FileInputStream("test.wav");
   SoundBuffer buf;
-  while (file->read(&buf)) {
+  while (file->Read(&buf)) {
     break;
   }
   delete file;

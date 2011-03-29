@@ -10,7 +10,7 @@ namespace audio {
 
 class SoundInputStreamInterface {
  public:
-  virtual bool read(pg::audio::SoundBuffer *buffer) = 0;
+  virtual bool Read(pg::audio::SoundBuffer *buffer) = 0;
   virtual ~SoundInputStreamInterface() {}
 };
 

@@ -3,6 +3,8 @@
 #ifndef SRC_AUDIO_FILEINPUTSTREAM_H_
 #define SRC_AUDIO_FILEINPUTSTREAM_H_
 
+#include <sndfile.h>
+
 #include "audio/SoundInputStreamInterface.h"
 
 namespace pg {
@@ -10,8 +12,14 @@ namespace audio {
 
 class FileInputStream: public pg::audio::SoundInputStreamInterface {
  public:
-  explicit FileInputStream(const char *file);
-  bool read(pg::audio::SoundBuffer *buffer) {return true;}
+  explicit FileInputStream(const char *path);
+  void Init();
+  ~FileInputStream();
+  bool Read(pg::audio::SoundBuffer *buffer) {return true;}
+ private:
+  const char *path_;
+  SNDFILE *sound_file_;
+  SF_INFO *sound_file_info_;
 };
 
 }  // namespace audio
