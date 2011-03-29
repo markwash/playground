@@ -10,7 +10,7 @@ namespace audio {
 
 class MicInputStream: public SoundInputStreamInterface {
  public:
-  void read(pg::audio::SoundBuffer *buffer) {}
+  bool read(pg::audio::SoundBuffer *buffer) {return true;}
 };
 
 }  // namespace audio
