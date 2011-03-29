@@ -9,6 +9,9 @@ file_input_stream_test_SOURCES = \
 
 file_input_stream_test_LDFLAGS = -lboost_unit_test_framework-mt
 
+file_input_stream_test_LDADD = \
+	$(top_builddir)/src/audio/libaudio.a
+
 sound_buffer_test_SOURCES = \
 	sound-buffer-test.cc
 

@@ -19,3 +19,4 @@ configure.scan
 record
 config.h.in~
 *-test
+*.a
