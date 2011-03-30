@@ -44,7 +44,7 @@ void MicInputStream::Init() {
 bool MicInputStream::Read(pg::audio::SoundBuffer *buffer) {
   buffer->set_channels(1);
   int frames, frames_available = input_->availableReadSize();
-  int min_frames = input_->sampleRate() / 24;
+  int min_frames = 2048;
 
   if (frames_available > buffer->max_frames())
     frames = buffer->max_frames();
