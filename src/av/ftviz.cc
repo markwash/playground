@@ -12,7 +12,7 @@ using pg::audio::SoundOutputStreamInterface;
 using pg::video::FtVisualOutputStream;
 
 int main(int argc, char **argv) {
-  // create input stream from mic input
+  /*// create input stream from mic input
   SoundInputStreamInterface *input;
   input = new MicInputStream();
   // create output stream that is actually video
@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
   // create TimedAudioPipe pipe
   // pipe.run_until_done
 
-  delete input;
+  delete input;*/
 
   return EXIT_SUCCESS;
 }

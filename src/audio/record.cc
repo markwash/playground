@@ -14,7 +14,7 @@ using pg::audio::SoundInputStreamInterface;
 using pg::audio::SoundOutputStreamInterface;
 
 int main(int argc, char **argv) {
-  // create input stream from mic input
+  /*// create input stream from mic input
   SoundInputStreamInterface *input;
   input = new MicInputStream();
   // create output stream that is sound file
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 
   delete input;
   delete output;
-  delete pipe;
+  delete pipe;*/
 
   return EXIT_SUCCESS;
 }
