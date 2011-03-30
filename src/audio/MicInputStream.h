@@ -1,4 +1,6 @@
-// Copyright 2010 <Mark Washenberger>
+// Copyright 2011 <Mark Washenberger>
+
+#include <portaudiocpp/BlockingStream.hxx>
 
 #include "audio/SoundInputStreamInterface.h"
 
@@ -10,7 +12,14 @@ namespace audio {
 
 class MicInputStream: public SoundInputStreamInterface {
  public:
-  bool Read(pg::audio::SoundBuffer *buffer) {return true;}
+  MicInputStream();
+  ~MicInputStream();
+
+  void Init();
+  bool Read(pg::audio::SoundBuffer *buffer);
+
+ private:
+  portaudio::BlockingStream *input_;
 };
 
 }  // namespace audio
