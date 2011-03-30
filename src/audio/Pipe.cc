@@ -4,11 +4,14 @@
 namespace pg {
 namespace audio {
 
-Pipe::run_until_finished(void) {
+void Pipe::run_until_finished(void) {
   SoundBuffer buffer;
+  buffer.Init();
   while (1) {
-    input->read(buffer);
-    output->write(buffer);
+    if (!input_->Read(&buffer))
+      break;
+    if (!output_->Write(&buffer))
+      break;
   }
 }
 

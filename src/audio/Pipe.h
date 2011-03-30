@@ -18,7 +18,7 @@ class Pipe {
        SoundOutputStreamInterface *output)
       : input_(input), output_(output) {}
 
-  void run_until_finished(void) {}
+  void run_until_finished(void);
  private:
   SoundInputStreamInterface *input_;
   SoundOutputStreamInterface *output_;

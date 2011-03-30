@@ -6,12 +6,18 @@ noinst_LIBRARIES = \
 libaudio_a_SOURCES = \
 	FileInputStream.h \
 	FileInputStream.cc \
+	FileOutputStream.h \
+	FileOutputStream.cc \
+	Pipe.h \
+	Pipe.cc \
 	SoundBuffer.h \
 	SoundBuffer.cc
 
-bin_PROGRAMS = record
+bin_PROGRAMS = pipe
 
-record_SOURCES = record.cc
+pipe_SOURCES = pipe.cc
+pipe_LDFLAGS = -lsndfile
+pipe_LDADD = $(top_builddir)/src/audio/libaudio.a
 
 noinst_PROGRAMS = create-wav
 
