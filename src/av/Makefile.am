@@ -1,5 +1,8 @@
 AM_CXXFLAGS = -I$(top_srcdir)/src
 
-bin_PROGRAMS = ftviz
+noinst_LIBRARIES = \
+	libav.a
 
-ftviz_SOURCES = ftviz.cc
+libav_a_SOURCES = \
+	VisualSoundOutputStream.h \
+	VisualSoundOutputStream.cc
