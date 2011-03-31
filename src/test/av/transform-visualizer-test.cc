@@ -71,25 +71,22 @@ class MockSoundTransformer: public SoundTransformerInterface {
 struct F {
   F()
       : transformer(1024, 1024), grapher(), screen(),
-      transform_visualizer(&transformer, &grapher) {}
+      transform_visualizer(&transformer, &grapher),
+      visualizer(&transform_visualizer),
+      buffer(4096) {
+    buffer.Init();
+    buffer.set_channels(1);
+  }
   MockSoundTransformer transformer;
   MockGrapher grapher;
   MockScreen screen;
   TransformVisualizer transform_visualizer;
+  VisualizerInterface *visualizer;
+  SoundBuffer buffer;
 };
 
-BOOST_FIXTURE_TEST_CASE(test_cast, F) {
-  VisualizerInterface *visualizer = &transform_visualizer;
-}
-
 BOOST_FIXTURE_TEST_CASE(test_visualize_basic, F) {
-  VisualizerInterface *visualizer = &transform_visualizer;
-
-  SoundBuffer buffer(1024);
-  buffer.Init();
-  buffer.set_channels(1);
   buffer.set_frames(1024);
-
   visualizer->Visualize(&buffer, &screen);
 
   BOOST_CHECK_EQUAL(transformer.transform_count(), 1);
@@ -99,4 +96,44 @@ BOOST_FIXTURE_TEST_CASE(test_visualize_basic, F) {
   BOOST_CHECK_EQUAL(call.screen, &screen);
   BOOST_CHECK(call.data == NULL);
   BOOST_CHECK_EQUAL(call.data_size, 1024);
+}
+
+BOOST_FIXTURE_TEST_CASE(test_visualize_waits_for_full_buffer, F) {
+  buffer.set_frames(512);
+  visualizer->Visualize(&buffer, &screen);
+
+  BOOST_CHECK_EQUAL(transformer.transform_count(), 0);
+  BOOST_CHECK_EQUAL(grapher.calls().size(), 0);
+}
+
+BOOST_FIXTURE_TEST_CASE(test_visualize_buffers_input, F) {
+  buffer.set_frames(512);
+  visualizer->Visualize(&buffer, &screen);
+  visualizer->Visualize(&buffer, &screen);
+
+  BOOST_CHECK_EQUAL(transformer.transform_count(), 1);
+  BOOST_REQUIRE_EQUAL(grapher.calls().size(), 1);
+
+  GraphCall call = grapher.calls()[0];
+  BOOST_CHECK_EQUAL(call.screen, &screen);
+  BOOST_CHECK(call.data == NULL);
+  BOOST_CHECK_EQUAL(call.data_size, 1024);
+}
+
+BOOST_FIXTURE_TEST_CASE(test_visualize_saves_overflow, F) {
+  buffer.set_frames(700);
+  visualizer->Visualize(&buffer, &screen);
+  visualizer->Visualize(&buffer, &screen);
+  visualizer->Visualize(&buffer, &screen);
+
+  BOOST_CHECK_EQUAL(transformer.transform_count(), 2);
+  BOOST_CHECK_EQUAL(grapher.calls().size(), 2);
+}
+
+BOOST_FIXTURE_TEST_CASE(test_visualize_gives_graph_correct_data, F) {
+  buffer.set_frames(1024);
+  double dummy_output;
+  transformer.set_output(&dummy_output);
+  visualizer->Visualize(&buffer, &screen);
+  BOOST_CHECK_EQUAL(grapher.calls()[0].data, &dummy_output);
 }
