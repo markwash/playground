@@ -15,21 +15,18 @@ using pg::video::ScreenInterface;
 
 class MockVisualizer: public VisualizerInterface {
  public:
-  MockVisualizer(): load_called_(false), screen_(NULL) {}
+  MockVisualizer(): buffer_(NULL), screen_(NULL) {}
 
-  void Load(SoundBuffer *buffer) {
-    load_called_ = true;
-  }
-
-  void Visualize(ScreenInterface *screen) {
+  void Visualize(SoundBuffer *buffer, ScreenInterface *screen) {
+    buffer_ = buffer;
     screen_ = screen;
   }
 
-  bool load_called() { return load_called_; }
+  SoundBuffer *buffer() { return buffer_; }
   ScreenInterface *screen() { return screen_; }
 
  private:
-  bool load_called_;
+  SoundBuffer *buffer_;
   ScreenInterface *screen_;
 };
 
@@ -52,6 +49,6 @@ BOOST_FIXTURE_TEST_CASE(test_create_and_write, F) {
 
   output->Write(&buffer);
 
-  BOOST_CHECK(visualizer.load_called());
+  BOOST_CHECK_EQUAL(visualizer.buffer(), &buffer);
   BOOST_CHECK_EQUAL(visualizer.screen(), &screen);
 }

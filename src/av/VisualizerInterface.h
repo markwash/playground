@@ -13,8 +13,8 @@ class VisualizerInterface {
  public:
   virtual ~VisualizerInterface() {}
 
-  virtual void Load(pg::audio::SoundBuffer *buffer) = 0;
-  virtual void Visualize(pg::video::ScreenInterface *screen) = 0;
+  virtual void Visualize(pg::audio::SoundBuffer *buffer,
+                         pg::video::ScreenInterface *screen) = 0;
 };
 
 }  // namespace av

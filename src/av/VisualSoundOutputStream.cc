@@ -16,8 +16,7 @@ VisualSoundOutputStream::~VisualSoundOutputStream() {
 }
 
 bool VisualSoundOutputStream::Write(pg::audio::SoundBuffer *buffer) {
-  visualizer_->Load(buffer);
-  visualizer_->Visualize(screen_);
+  visualizer_->Visualize(buffer, screen_);
 }
 
 }  // namespace av
