@@ -45,9 +45,14 @@ void BarGrapher::DrawBar(ScreenInterface *screen,
 
 Color BarGrapher::CalculateColor(double data) {
   Color color;
-  color.red = 255 * data / max_;
+  double portion;
+  if (data <= 0.0 || max_ == 0.0)
+    portion = 0.0;
+  else
+    portion = data / max_;
+  color.red = 255 * portion;
   color.green = 0;
-  color.blue = 255 - 255 * data / max_;
+  color.blue = 255 - 255 * portion;
   return color;
 }
 
@@ -75,7 +80,13 @@ void BarGrapher::CalculateStartAndEndX(int width, int bar, int bars,
 void BarGrapher::CalculateStartAndEndY(int height, double data,
                                        Rectangle *rectangle) {
   rectangle->end_y = height - 2;
-  double height_portion = 0.8 * data / max_ + 0.2;
+  if (data < 0.0)
+    data = 0.0;
+  double height_portion;
+  if (max_ == 0.0)
+    height_portion = 0.2;
+  else
+    height_portion = 0.8 * data / max_ + 0.2;
   rectangle->start_y = (height - 1) - (height - 2) * height_portion;
 }
 

@@ -136,8 +136,32 @@ BOOST_FIXTURE_TEST_CASE(test_three_points, F) {
   Color purple = {127, 0, 127};
   Rectangle left = {1, 81, 4, 100};
   Rectangle middle = {6, 40, 9, 100};
-  Rectangle right = {11, 1, 15, 100};
+  Rectangle right = {11, 1, 14, 100};
   BOOST_CHECK(Contains(commit, left, blue));
   BOOST_CHECK(Contains(commit, right, red));
   BOOST_CHECK(Contains(commit, middle, purple));
+}
+
+BOOST_FIXTURE_TEST_CASE(test_max_reasonable_when_data_is_only_zero, F) {
+  double data[] = {0.0, 0.0};
+  screen.set_width(13);
+  screen.set_height(102);
+  grapher->Graph(&screen, data, 2);
+  vector<DrawCall> commit = screen.commits()[0];
+  Color blue = {0, 0, 255};
+  Rectangle left = {1, 81, 5, 100};
+  Rectangle right = {7, 81, 11, 100};
+  BOOST_CHECK(Contains(commit, left, blue));
+  BOOST_CHECK(Contains(commit, right, blue));
+}
+
+BOOST_FIXTURE_TEST_CASE(test_negatives_become_zero, F) {
+  double data[] = {-1.0};
+  screen.set_width(10);
+  screen.set_height(102);
+  grapher->Graph(&screen, data, 1);
+  vector<DrawCall> commit = screen.commits()[0];
+  Color blue = {0, 0, 255};
+  Rectangle rectangle = {1, 81, 8, 100};
+  BOOST_CHECK(Contains(commit, rectangle, blue));
 }
