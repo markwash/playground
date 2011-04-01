@@ -14,13 +14,23 @@ AC_PROG_CXX
 AC_PROG_RANLIB
 
 # Checks for libraries.
+AC_CHECK_LIB([SDL], [SDL_SetVideoMode])
+AC_CHECK_LIB([fftw3], [fftw_plan_dft_r2c_1d])
+AC_CHECK_LIB([m], [sqrt])
+AC_CHECK_LIB([portaudiocpp], [portaudio::System::instance])
+AC_CHECK_LIB([sndfile], [sf_open])
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h])
+AC_CHECK_HEADERS([stdint.h stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_TYPE_INT16_T
+AC_TYPE_UINT32_T
 
 # Checks for library functions.
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([floor memset pow sqrt strdup])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile
