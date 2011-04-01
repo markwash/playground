@@ -100,6 +100,22 @@ static SoundOutputStreamInterface *CreateOutputStreamOrDie(
   return NULL;
 }
 
+class SDLStopCondition: public pg::audio::PipeStopCondition {
+ public:
+  bool IsTimeToStop() {
+    SDL_Event event;
+    int event_found;
+    while (1) {
+      event_found = SDL_PollEvent(&event);
+      if (event_found == 0)
+        break;
+      if (event.type == SDL_QUIT)
+        return true;
+    }
+    return false;
+  }
+};
+
 int main(int argc, char **argv) {
   if (argc != 3) {
     fprintf(stderr, "Usage: %s <input> <output>\n", argv[0]);
@@ -121,7 +137,9 @@ int main(int argc, char **argv) {
   in = CreateInputStreamOrDie(&input_token);
   out = CreateOutputStreamOrDie(&output_token);
 
-  Pipe pipe(in, out);
+  SDLStopCondition stop_condition;
+
+  Pipe pipe(in, out, &stop_condition);
   pipe.run_until_finished();
 
   delete in;

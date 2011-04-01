@@ -9,16 +9,26 @@
 namespace pg {
 namespace audio {
 
+class PipeStopCondition {
+ public:
+  virtual ~PipeStopCondition() {}
+  virtual bool IsTimeToStop() = 0;
+};
+
 class Pipe {
  public:
   Pipe(pg::audio::SoundInputStreamInterface *input,
-       pg::audio::SoundOutputStreamInterface *output)
-      : input_(input), output_(output) {}
+       pg::audio::SoundOutputStreamInterface *output);
+
+  Pipe(pg::audio::SoundInputStreamInterface *input,
+       pg::audio::SoundOutputStreamInterface *output,
+       PipeStopCondition *stop_condition);
 
   void run_until_finished(void);
  private:
   pg::audio::SoundInputStreamInterface *input_;
   pg::audio::SoundOutputStreamInterface *output_;
+  PipeStopCondition *stop_condition_;
 };
 
 }  // namespace audio
