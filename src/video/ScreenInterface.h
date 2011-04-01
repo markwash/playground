@@ -25,8 +25,11 @@ class ScreenInterface {
  public:
   virtual ~ScreenInterface() {}
   virtual void Clear() = 0;
-  virtual void Update() = 0;
+  virtual void Commit() = 0;
   virtual void Draw(Rectangle rectangle, Color color) = 0;
+
+  virtual int width() const = 0;
+  virtual int height() const = 0;
 };
 
 }  // namespace video

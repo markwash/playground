@@ -32,8 +32,10 @@ class MockVisualizer: public VisualizerInterface {
 
 class MockScreen: public pg::video::ScreenInterface {
   void Clear() {}
-  void Update() {}
+  void Commit() {}
   void Draw(pg::video::Rectangle r, pg::video::Color c) {}
+  int width() const { return 0; }
+  int height() const { return 0; }
 };
 
 struct F {

@@ -17,8 +17,10 @@ using pg::video::ScreenInterface;
 
 class MockScreen: public pg::video::ScreenInterface {
   void Clear() {}
-  void Update() {}
+  void Commit() {}
   void Draw(pg::video::Rectangle rectangle, pg::video::Color color) {}
+  int width() const { return 0; }
+  int height() const { return 0; }
 };
 
 class GraphCall {
