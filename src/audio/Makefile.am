@@ -8,6 +8,8 @@ libaudio_a_SOURCES = \
 	FileInputStream.cc \
 	FileOutputStream.h \
 	FileOutputStream.cc \
+	FourierTransformer.h \
+	FourierTransformer.cc \
 	MicInputStream.h \
 	MicInputStream.cc \
 	Pipe.h \
@@ -18,7 +20,7 @@ libaudio_a_SOURCES = \
 bin_PROGRAMS = pipe
 
 pipe_SOURCES = pipe.cc
-pipe_LDFLAGS = -lsndfile -lportaudiocpp
+pipe_LDFLAGS = -lsndfile -lportaudiocpp -lfftw3 -lm -lSDL
 pipe_LDADD = $(top_builddir)/src/audio/libaudio.a
 
 noinst_PROGRAMS = create-wav
