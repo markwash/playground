@@ -5,4 +5,6 @@ noinst_LIBRARIES = \
 
 libvideo_a_SOURCES = \
 	BarGrapher.h \
-	BarGrapher.cc	
+	BarGrapher.cc \
+	SDLScreen.h \
+	SDLScreen.cc
