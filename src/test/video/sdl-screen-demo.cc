@@ -27,9 +27,9 @@ int main(int argc, char **argv) {
   screen.Commit();
   SleepUntilQuit();
   screen.Clear();
-  rectangle = {400, 200, 700, 400};
-  color = {128, 128, 255};
-  screen.Draw(rectangle, color);
+  Rectangle rectangle2 = {400, 200, 700, 400};
+  Color color2 = {128, 128, 255};
+  screen.Draw(rectangle2, color2);
   screen.Commit();
   SleepUntilQuit();
   return EXIT_SUCCESS;
