@@ -16,6 +16,9 @@ using pg::audio::SoundBuffer;
 using pg::video::ScreenInterface;
 
 class MockScreen: public pg::video::ScreenInterface {
+  void Clear() {}
+  void Update() {}
+  void Draw(pg::video::Rectangle rectangle, pg::video::Color color) {}
 };
 
 class GraphCall {

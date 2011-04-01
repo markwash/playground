@@ -8,7 +8,7 @@ bar_grapher_test_SOURCES = \
 
 bar_grapher_test_LDFLAGS = -lboost_unit_test_framework-mt
 
-#bar_grapher_test_LDADD = \
-#	$(top_builddir)/src/video/libvideo.a
+bar_grapher_test_LDADD = \
+	$(top_builddir)/src/video/libvideo.a
 
 TESTS = $(check_PROGRAMS)

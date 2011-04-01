@@ -1,7 +1,7 @@
 SUBDIRS = \
 	audio \
 	av \
-	test \
-	video
+	video \
+	test
 
 TESTS = run_cpplint.sh
