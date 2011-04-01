@@ -17,12 +17,6 @@ libaudio_a_SOURCES = \
 	SoundBuffer.h \
 	SoundBuffer.cc
 
-bin_PROGRAMS = pipe
-
-pipe_SOURCES = pipe.cc
-pipe_LDFLAGS = -lsndfile -lportaudiocpp -lfftw3 -lm -lSDL
-pipe_LDADD = $(top_builddir)/src/audio/libaudio.a
-
 noinst_PROGRAMS = create-wav
 
 create_wav_SOURCES = create-wav.cc

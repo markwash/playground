@@ -3,6 +3,7 @@
 #include "video/SDLScreen.h"
 
 #include <stdint.h>
+#include <stdio.h>
 
 namespace pg {
 namespace video {

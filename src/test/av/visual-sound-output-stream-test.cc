@@ -52,8 +52,10 @@ BOOST_FIXTURE_TEST_CASE(test_create_and_write, F) {
   buffer.Init();
   buffer.set_frames(1024);
 
-  output->Write(&buffer);
+  bool result = false;
+  result = output->Write(&buffer);
 
+  BOOST_CHECK(result);
   BOOST_CHECK_EQUAL(visualizer.buffer(), &buffer);
   BOOST_CHECK_EQUAL(visualizer.screen(), &screen);
 }

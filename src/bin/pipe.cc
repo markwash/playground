@@ -7,15 +7,25 @@
 
 #include "audio/FileInputStream.h"
 #include "audio/FileOutputStream.h"
+#include "audio/FourierTransformer.h"
 #include "audio/MicInputStream.h"
 #include "audio/Pipe.h"
+#include "av/VisualSoundOutputStream.h"
+#include "av/TransformVisualizer.h"
+#include "video/BarGrapher.h"
+#include "video/SDLScreen.h"
 
 using pg::audio::FileInputStream;
 using pg::audio::FileOutputStream;
+using pg::audio::FourierTransformer;
 using pg::audio::MicInputStream;
 using pg::audio::Pipe;
 using pg::audio::SoundInputStreamInterface;
 using pg::audio::SoundOutputStreamInterface;
+using pg::av::VisualSoundOutputStream;
+using pg::av::TransformVisualizer;
+using pg::video::BarGrapher;
+using pg::video::SDLScreen;
 
 
 class Token {
@@ -72,6 +82,17 @@ static SoundOutputStreamInterface *CreateOutputStreamOrDie(
     FileOutputStream *output = new FileOutputStream(token->args()->at(0));
     output->Init();
     return output;
+  } else if (strcmp(token->key(), "ft") == 0) {
+    FourierTransformer *transformer = new FourierTransformer(2205, 105);
+    transformer->Init();
+    BarGrapher *grapher = new BarGrapher();
+    TransformVisualizer *visualizer =
+        new TransformVisualizer(transformer, grapher);
+    SDLScreen *screen =
+        new SDLScreen(SDL_SetVideoMode(1024, 768, 32, SDL_HWSURFACE));
+    VisualSoundOutputStream *output =
+        new VisualSoundOutputStream(visualizer, screen);
+    return output;
   }
 
   fprintf(stderr, "Unrecognized key: %s\n", token->key());
@@ -86,6 +107,7 @@ int main(int argc, char **argv) {
   }
 
   portaudio::AutoSystem auto_sys;
+  SDL_Init(SDL_INIT_EVERYTHING);
 
   Token input_token(argv[1]);
   Token output_token(argv[2]);

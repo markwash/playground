@@ -30,7 +30,7 @@ double BarGrapher::FindMax(const double *data, int data_size) {
 }
 
 void BarGrapher::UpdateMax(double max) {
-  if (max < max_)
+  if (max < 0.98 * max_)
     max_ *= 0.98;
   else
     max_ = max;

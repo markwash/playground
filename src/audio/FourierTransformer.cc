@@ -3,6 +3,7 @@
 #include "audio/FourierTransformer.h"
 
 #include <math.h>
+#include <stdio.h>
 
 namespace pg {
 namespace audio {
@@ -47,8 +48,8 @@ void FourierTransformer::LoadInput(int16_t *input) {
 void FourierTransformer::AverageBuckets() {
   int bucket_left, bucket_right;
   for (int i = 0; i < buckets_; i++) {
-    bucket_left = i / buckets_ * complex_output_size_;
-    bucket_right = (i + 1) / buckets_ * complex_output_size_;
+    bucket_left = i * complex_output_size_ / buckets_;
+    bucket_right = (i + 1) * complex_output_size_ / buckets_;
     bucket_data_[i] =
         AverageOutputMagnitudesBetween(bucket_left, bucket_right);
   }
@@ -56,7 +57,7 @@ void FourierTransformer::AverageBuckets() {
 
 double FourierTransformer::AverageOutputMagnitudesBetween(int left,
                                                           int right) {
-  if (left <= right)
+  if (left >= right)
     return 0.0;
   double real, imag, total_magnitude;
   for (int i = left; i < right; i++) {

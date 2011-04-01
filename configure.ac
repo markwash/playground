@@ -27,6 +27,7 @@ AC_CONFIG_FILES([Makefile
 		 src/audio/Makefile
 		 src/av/Makefile
 		 src/video/Makefile
+		 src/bin/Makefile
 		 src/test/Makefile
 		 src/test/audio/Makefile
 		 src/test/av/Makefile
