@@ -68,6 +68,34 @@ static bool Equal(Rectangle left, Rectangle right) {
       && left.end_y == right.end_y;
 }
 
+static bool Equal(Color left, Color right) {
+  return left.red == right.red
+      && left.green == right.green
+      && left.blue == right.blue;
+}
+
+static bool Contains(vector<DrawCall> list, Rectangle rectangle, Color color) {
+  for (int i = 0; i < list.size(); i++) {
+    if (Equal(list[i].rectangle, rectangle)
+        && Equal(list[i].color, color))
+      return true;
+  }
+  return false;
+}
+
+static void Display(vector<DrawCall> list) {
+  Rectangle rectangle;
+  Color color;
+  for (int i = 0; i < list.size(); i++) {
+    rectangle = list[i].rectangle;
+    color = list[i].color;
+    fprintf(stderr, "[x = (%d, %d), y = (%d, %d)], {%d, %d, %d}\n",
+            rectangle.start_x, rectangle.end_x,
+            rectangle.start_y, rectangle.end_y,
+            color.red, color.green, color.blue);
+  }
+}
+
 struct F {
   F(): screen(), bar_grapher(), grapher(&bar_grapher) {}
   MockScreen screen;
@@ -79,7 +107,7 @@ BOOST_FIXTURE_TEST_CASE(test_no_data, F) {
   grapher->Graph(&screen, NULL, 0);
   BOOST_CHECK(screen.clear_called());
   BOOST_CHECK_EQUAL(screen.draw_calls().size(), 0);
-  BOOST_CHECK_EQUAL(screen.commits().size(), 0);
+  BOOST_CHECK_EQUAL(screen.commits().size(), 1);
 }
 
 BOOST_FIXTURE_TEST_CASE(test_single_point, F) {
@@ -91,6 +119,25 @@ BOOST_FIXTURE_TEST_CASE(test_single_point, F) {
   BOOST_REQUIRE_EQUAL(screen.commits().size(), 1);
   BOOST_REQUIRE_EQUAL(screen.commits()[0].size(), 1);
   DrawCall call = screen.commits()[0][0];
-  Rectangle expected = {0, 0, 9, 19};
-  BOOST_CHECK(Equal(call.rectangle, expected));
+  Rectangle expected_rectangle = {1, 1, 8, 18};
+  Color red = {255, 0, 0};
+  BOOST_CHECK(Equal(call.rectangle, expected_rectangle));
+  BOOST_CHECK(Equal(call.color, red));
+}
+
+BOOST_FIXTURE_TEST_CASE(test_three_points, F) {
+  double data[] = {0.0, 0.5, 1.0};
+  screen.set_width(16);
+  screen.set_height(102);
+  grapher->Graph(&screen, data, 3);
+  vector<DrawCall> commit = screen.commits()[0];
+  Color red = {255, 0, 0};
+  Color blue = {0, 0, 255};
+  Color purple = {127, 0, 127};
+  Rectangle left = {1, 81, 4, 100};
+  Rectangle middle = {6, 40, 9, 100};
+  Rectangle right = {11, 1, 15, 100};
+  BOOST_CHECK(Contains(commit, left, blue));
+  BOOST_CHECK(Contains(commit, right, red));
+  BOOST_CHECK(Contains(commit, middle, purple));
 }

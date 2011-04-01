@@ -10,8 +10,22 @@ namespace video {
 
 class BarGrapher: public GrapherInterface {
  public:
+  BarGrapher();
   void Graph(pg::video::ScreenInterface *screen,
              const double *data, int data_size);
+ private:
+  double FindMax(const double *data, int data_size);
+  void UpdateMax(double max);
+  void DrawBar(ScreenInterface *screen, double data, int bar, int bars);
+  pg::video::Color CalculateColor(double data);
+  pg::video::Rectangle CalculateRectangle(ScreenInterface *screen,
+                                          double data, int bar, int bars);
+  void CalculateStartAndEndX(int width, int bar, int bars,
+                             pg::video::Rectangle *rectangle);
+  void CalculateStartAndEndY(int height, double data,
+                             pg::video::Rectangle *rectangle);
+
+  double max_;
 };
 
 }  // namespace video
