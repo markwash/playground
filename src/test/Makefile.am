@@ -1,3 +1,4 @@
 SUBDIRS = \
 	audio \
-	av
+	av \
+	video

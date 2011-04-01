@@ -30,5 +30,6 @@ AC_CONFIG_FILES([Makefile
 		 src/test/Makefile
 		 src/test/audio/Makefile
 		 src/test/av/Makefile
+		 src/test/video/Makefile
 		])
 AC_OUTPUT
