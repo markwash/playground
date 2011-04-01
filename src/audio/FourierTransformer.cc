@@ -8,9 +8,11 @@
 namespace pg {
 namespace audio {
 
-FourierTransformer::FourierTransformer(int input_size, int buckets)
+FourierTransformer::FourierTransformer(int input_size, int buckets,
+                                       int relaxor)
     : input_size_(input_size),
     buckets_(buckets),
+    relaxor_(relaxor),
     bucket_data_(NULL),
     real_input_(NULL),
     complex_output_(NULL),
@@ -26,6 +28,8 @@ FourierTransformer::~FourierTransformer() {
 
 void FourierTransformer::Init() {
   bucket_data_ = new double[buckets_];
+  for (int i = 0; i < buckets_; i++)
+    bucket_data_[i] = 0.0;
   real_input_ = static_cast<double *>(
       fftw_malloc(sizeof(*real_input_) * input_size_));
   complex_output_ = static_cast<fftw_complex *>(
@@ -47,11 +51,21 @@ void FourierTransformer::LoadInput(int16_t *input) {
 
 void FourierTransformer::AverageBuckets() {
   int bucket_left, bucket_right;
+  double factor = pow(complex_output_size_, 1.0 / buckets_);
+  double left = 1.0;
+  double right = factor;
+  double data;
+  double relaxation = 1.0 / relaxor_;
   for (int i = 0; i < buckets_; i++) {
-    bucket_left = i * complex_output_size_ / buckets_;
-    bucket_right = (i + 1) * complex_output_size_ / buckets_;
-    bucket_data_[i] =
-        AverageOutputMagnitudesBetween(bucket_left, bucket_right);
+    bucket_left = floor(left);
+    bucket_right = ceil(right);
+    if (bucket_right > complex_output_size_)
+      bucket_right = complex_output_size_;
+    data = log(bucket_left * AverageOutputMagnitudesBetween(bucket_left,
+                                                            bucket_right));
+    bucket_data_[i] = (1.0 - relaxation) * bucket_data_[i] + relaxation * data;
+    left = right;
+    right *= factor;
   }
 }
 

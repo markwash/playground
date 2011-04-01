@@ -9,12 +9,13 @@ using pg::video::ScreenInterface;
 namespace pg {
 namespace video {
 
-BarGrapher::BarGrapher(): max_(0.0) {}
+BarGrapher::BarGrapher(): max_(0.0), min_(0.0) {}
 
 void BarGrapher::Graph(ScreenInterface *screen,
                        const double *data, int data_size) {
   screen->Clear();
   UpdateMax(FindMax(data, data_size));
+  UpdateMin(FindMin(data, data_size));
   for (int i = 0; i < data_size; i++)
     DrawBar(screen, data[i], i, data_size);
   screen->Commit();
@@ -29,11 +30,27 @@ double BarGrapher::FindMax(const double *data, int data_size) {
   return max;
 }
 
+double BarGrapher::FindMin(const double *data, int data_size) {
+  if (data_size <= 0)
+    return 0.0;
+  double min = data[0];
+  for (int i = 1; i < data_size; i++) {
+    if (data[i] < min)
+      min = data[i];
+  }
+  return min;
+}
+
 void BarGrapher::UpdateMax(double max) {
-  if (max < 0.98 * max_)
-    max_ *= 0.98;
-  else
+  max_ = max_ - 0.005 * (max_ - min_);
+  if (max > max_)
     max_ = max;
+}
+
+void BarGrapher::UpdateMin(double min) {
+  min_ = min_ + 0.005 * (max_ - min_);
+  if (min < min_)
+    min_ = min;
 }
 
 void BarGrapher::DrawBar(ScreenInterface *screen,
@@ -46,10 +63,10 @@ void BarGrapher::DrawBar(ScreenInterface *screen,
 Color BarGrapher::CalculateColor(double data) {
   Color color;
   double portion;
-  if (data <= 0.0 || max_ == 0.0)
+  if (max_ <= min_)
     portion = 0.0;
   else
-    portion = data / max_;
+    portion = (data - min_) / (max_ - min_);
   color.red = 255 * portion;
   color.green = 0;
   color.blue = 255 - 255 * portion;
@@ -80,13 +97,12 @@ void BarGrapher::CalculateStartAndEndX(int width, int bar, int bars,
 void BarGrapher::CalculateStartAndEndY(int height, double data,
                                        Rectangle *rectangle) {
   rectangle->end_y = height - 2;
-  if (data < 0.0)
-    data = 0.0;
   double height_portion;
-  if (max_ == 0.0)
-    height_portion = 0.2;
+  if (max_ <= min_)
+    height_portion = 0.0;
   else
-    height_portion = 0.8 * data / max_ + 0.2;
+    height_portion = (data - min_) / (max_ - min_);
+  height_portion = 0.9 * height_portion + 0.1;
   rectangle->start_y = (height - 1) - (height - 2) * height_portion;
 }
 

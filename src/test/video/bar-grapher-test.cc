@@ -113,13 +113,13 @@ BOOST_FIXTURE_TEST_CASE(test_no_data, F) {
 BOOST_FIXTURE_TEST_CASE(test_single_point, F) {
   double datum = 1.0;
   screen.set_width(10);
-  screen.set_height(20);
+  screen.set_height(102);
   grapher->Graph(&screen, &datum, 1);
   BOOST_CHECK(screen.clear_called());
   BOOST_REQUIRE_EQUAL(screen.commits().size(), 1);
   BOOST_REQUIRE_EQUAL(screen.commits()[0].size(), 1);
   DrawCall call = screen.commits()[0][0];
-  Rectangle expected_rectangle = {1, 1, 8, 18};
+  Rectangle expected_rectangle = {1, 1, 8, 100};
   Color red = {255, 0, 0};
   BOOST_CHECK(Equal(call.rectangle, expected_rectangle));
   BOOST_CHECK(Equal(call.color, red));
@@ -134,8 +134,8 @@ BOOST_FIXTURE_TEST_CASE(test_three_points, F) {
   Color red = {255, 0, 0};
   Color blue = {0, 0, 255};
   Color purple = {127, 0, 127};
-  Rectangle left = {1, 81, 4, 100};
-  Rectangle middle = {6, 40, 9, 100};
+  Rectangle left = {1, 91, 4, 100};
+  Rectangle middle = {6, 45, 9, 100};
   Rectangle right = {11, 1, 14, 100};
   BOOST_CHECK(Contains(commit, left, blue));
   BOOST_CHECK(Contains(commit, right, red));
@@ -149,8 +149,8 @@ BOOST_FIXTURE_TEST_CASE(test_max_reasonable_when_data_is_only_zero, F) {
   grapher->Graph(&screen, data, 2);
   vector<DrawCall> commit = screen.commits()[0];
   Color blue = {0, 0, 255};
-  Rectangle left = {1, 81, 5, 100};
-  Rectangle right = {7, 81, 11, 100};
+  Rectangle left = {1, 91, 5, 100};
+  Rectangle right = {7, 91, 11, 100};
   BOOST_CHECK(Contains(commit, left, blue));
   BOOST_CHECK(Contains(commit, right, blue));
 }
@@ -162,6 +162,6 @@ BOOST_FIXTURE_TEST_CASE(test_negatives_become_zero, F) {
   grapher->Graph(&screen, data, 1);
   vector<DrawCall> commit = screen.commits()[0];
   Color blue = {0, 0, 255};
-  Rectangle rectangle = {1, 81, 8, 100};
+  Rectangle rectangle = {1, 91, 8, 100};
   BOOST_CHECK(Contains(commit, rectangle, blue));
 }

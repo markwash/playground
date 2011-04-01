@@ -15,7 +15,9 @@ class BarGrapher: public GrapherInterface {
              const double *data, int data_size);
  private:
   double FindMax(const double *data, int data_size);
+  double FindMin(const double *data, int data_size);
   void UpdateMax(double max);
+  void UpdateMin(double min);
   void DrawBar(ScreenInterface *screen, double data, int bar, int bars);
   pg::video::Color CalculateColor(double data);
   pg::video::Rectangle CalculateRectangle(ScreenInterface *screen,
@@ -26,6 +28,7 @@ class BarGrapher: public GrapherInterface {
                              pg::video::Rectangle *rectangle);
 
   double max_;
+  double min_;
 };
 
 }  // namespace video

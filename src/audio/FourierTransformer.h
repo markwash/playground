@@ -12,7 +12,7 @@ namespace audio {
 
 class FourierTransformer: public pg::audio::SoundTransformerInterface {
  public:
-  FourierTransformer(int input_size, int buckets);
+  FourierTransformer(int input_size, int buckets, int relaxor);
   ~FourierTransformer();
   void Init();
 
@@ -29,6 +29,7 @@ class FourierTransformer: public pg::audio::SoundTransformerInterface {
 
   int input_size_;
   int buckets_;
+  int relaxor_;
   double *bucket_data_;
   double *real_input_;
   fftw_complex *complex_output_;

@@ -83,7 +83,7 @@ static SoundOutputStreamInterface *CreateOutputStreamOrDie(
     output->Init();
     return output;
   } else if (strcmp(token->key(), "ft") == 0) {
-    FourierTransformer *transformer = new FourierTransformer(2205, 105);
+    FourierTransformer *transformer = new FourierTransformer(4410, 128, 4);
     transformer->Init();
     BarGrapher *grapher = new BarGrapher();
     TransformVisualizer *visualizer =
