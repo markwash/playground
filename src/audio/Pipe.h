@@ -6,22 +6,19 @@
 #include "audio/SoundInputStreamInterface.h"
 #include "audio/SoundOutputStreamInterface.h"
 
-using pg::audio::SoundInputStreamInterface;
-using pg::audio::SoundOutputStreamInterface;
-
 namespace pg {
 namespace audio {
 
 class Pipe {
  public:
-  Pipe(SoundInputStreamInterface *input,
-       SoundOutputStreamInterface *output)
+  Pipe(pg::audio::SoundInputStreamInterface *input,
+       pg::audio::SoundOutputStreamInterface *output)
       : input_(input), output_(output) {}
 
   void run_until_finished(void);
  private:
-  SoundInputStreamInterface *input_;
-  SoundOutputStreamInterface *output_;
+  pg::audio::SoundInputStreamInterface *input_;
+  pg::audio::SoundOutputStreamInterface *output_;
 };
 
 }  // namespace audio
